@@ -41,10 +41,10 @@ export default function About() {
               <div className="relative rounded-2xl overflow-hidden border border-border bg-surface aspect-[4/5] shadow-xl">
                 <Image
                   src="/photo.jpg"
-                  alt="Abhijeet Sakpal"
+                  alt="Abhijeet Sakpal — senior full-stack engineer, professional headshot"
                   fill
                   priority
-                  sizes="(min-width: 1024px) 32rem, 90vw"
+                  sizes="(min-width: 1024px) 24rem, (min-width: 640px) 16rem, 90vw"
                   className="object-cover object-[center_18%]"
                 />
                 {/* Bottom subtle gradient for badge legibility */}
@@ -54,9 +54,13 @@ export default function About() {
                 />
                 {/* Status badge */}
                 <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3">
-                  <div className="inline-flex items-center gap-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10 px-3 py-1.5 text-xs text-white">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                  <div
+                    role="status"
+                    aria-live="polite"
+                    className="inline-flex items-center gap-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10 px-3 py-1.5 text-xs text-white"
+                  >
+                    <span aria-hidden="true" className="relative flex h-2 w-2">
+                      <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
                     </span>
                     Available for projects
@@ -71,11 +75,12 @@ export default function About() {
             <div>
               <div className="section-eyebrow">About</div>
               <h2 className="section-title">
-                Senior full-stack engineer.{" "}
-                <span className="text-muted">
-                  Pragmatic, outcome-driven, and shipping-focused.
-                </span>
+                Senior <span className="gradient-text">full-stack</span>{" "}
+                engineer.
               </h2>
+              <p className="section-subtitle">
+                Pragmatic, outcome-driven, and shipping-focused.
+              </p>
             </div>
           </div>
 
@@ -115,7 +120,9 @@ export default function About() {
                     <div className="font-semibold text-foreground text-sm">
                       {h.title}
                     </div>
-                    <div className="text-sm text-foreground/65 mt-1">{h.text}</div>
+                    <div className="text-sm text-foreground/70 mt-1 leading-relaxed">
+                      {h.text}
+                    </div>
                   </div>
                 </div>
               ))}

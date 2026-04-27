@@ -18,7 +18,7 @@ export default function Contact() {
                 <br />
                 <span className="gradient-text">Let&apos;s build it.</span>
               </h2>
-              <p className="text-foreground/85 leading-relaxed mb-8">
+              <p className="text-foreground/70 text-base leading-relaxed mb-8 max-w-md">
                 I&apos;m available for freelance engagements — fixed-scope
                 builds, LLM integration audits, or ongoing retainers. Drop me
                 a line and I&apos;ll get back to you within 24 hours.
@@ -86,18 +86,28 @@ function ContactItem({
         <Icon size={18} />
       </div>
       <div className="min-w-0">
-        <div className="text-xs uppercase tracking-widest text-muted">
+        <div className="text-[11px] uppercase tracking-[0.2em] text-muted font-semibold">
           {label}
         </div>
-        <div className="text-foreground font-medium truncate">{value}</div>
+        <div className="text-foreground font-medium truncate text-sm mt-0.5">
+          {value}
+        </div>
       </div>
     </div>
   );
-  return href ? (
-    <a href={href} target="_blank" rel="noopener noreferrer" className="block">
+  if (!href) return content;
+
+  // Only external HTTPS links open in a new tab. mailto: and tel: stay in-page.
+  const isExternal = /^https?:/i.test(href);
+  return (
+    <a
+      href={href}
+      {...(isExternal
+        ? { target: "_blank", rel: "noopener noreferrer" }
+        : {})}
+      className="block"
+    >
       {content}
     </a>
-  ) : (
-    content
   );
 }

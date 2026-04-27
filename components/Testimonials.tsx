@@ -12,6 +12,9 @@ export default function Testimonials() {
           <h2 className="section-title">
             What people <span className="gradient-text">say</span>
           </h2>
+          <p className="section-subtitle mx-auto">
+            Quotes from teammates and clients I&apos;ve shipped with.
+          </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -22,7 +25,7 @@ export default function Testimonials() {
                 className="text-accent/60 mb-4 shrink-0"
                 aria-hidden
               />
-              <blockquote className="text-foreground/85 leading-relaxed text-sm flex-1">
+              <blockquote className="text-foreground/85 leading-relaxed text-base flex-1">
                 &ldquo;{t.quote}&rdquo;
               </blockquote>
               <figcaption className="mt-6 flex items-center gap-3">
@@ -43,10 +46,10 @@ export default function Testimonials() {
                   </div>
                 )}
                 <div className="min-w-0">
-                  <div className="font-semibold text-foreground text-sm truncate">
+                  <div className="font-semibold text-foreground text-sm truncate tracking-tight">
                     {t.name}
                   </div>
-                  <div className="text-xs text-muted truncate">
+                  <div className="text-xs text-muted truncate mt-0.5">
                     {t.role} · {t.company}
                   </div>
                 </div>

@@ -2,7 +2,7 @@ export const profile = {
   name: "Abhijeet Sakpal",
   role: "Full Stack Developer",
   tagline:
-    "I help enterprises ship AI-powered, cloud-native applications — from .NET microservices to Angular UIs and LLM-driven automation.",
+    "Senior full-stack engineer specializing in .NET microservices, Angular, and LLM-powered automation. Available for fixed-scope builds and ongoing engagements.",
   location: "Thane, Maharashtra, India",
   email: "sakpalabhijeet09@gmail.com",
   phone: "+91-9763282164",
@@ -110,6 +110,115 @@ export const experience = [
   },
 ];
 
+export const offers: Array<{
+  badge: string;
+  title: string;
+  pitch: string;
+  duration: string;
+  priceUsd: string;
+  priceInr: string;
+  deliverables: string[];
+  bestFor: string;
+  cta: string;
+}> = [
+  {
+    badge: "Most popular",
+    title: "LLM Integration Audit",
+    pitch:
+      "A 5-day deep-dive that tells you exactly where LLMs will (and won't) pay back inside your existing product — with a working prototype.",
+    duration: "5 working days",
+    priceUsd: "Starting at $1,500",
+    priceInr: "≈ ₹1.25L",
+    deliverables: [
+      "Discovery call + access review (Day 1)",
+      "Workflow + cost-benefit analysis across your top 3 candidate use cases",
+      "Architecture diagram showing exactly where the LLM layer fits",
+      "Working proof-of-concept on one selected workflow (real data, not toy)",
+      "Cost model: per-call $, monthly token budget, infra & latency expectations",
+      "Risk register — prompt injection, PII, vendor lock-in, fallback strategy",
+      "Written report + 60-min walkthrough with your team",
+    ],
+    bestFor:
+      "Teams who keep getting asked \"can we use AI for this?\" and need a defensible answer.",
+    cta: "Book the audit",
+  },
+  {
+    badge: "Quick win",
+    title: "Dockerize My .NET App",
+    pitch:
+      "Take your .NET Core app from \"runs on the dev's laptop\" to a production-ready container deployed on Azure or any Kubernetes cluster — in 2 weeks.",
+    duration: "2 weeks",
+    priceUsd: "Starting at $2,200",
+    priceInr: "≈ ₹1.85L",
+    deliverables: [
+      "Containerized application (multi-stage Dockerfile, optimized image size)",
+      "docker-compose for local dev — DB, cache, API in one command",
+      "Kubernetes manifests OR Azure App Service config (your choice)",
+      "CI/CD pipeline (GitHub Actions or Azure DevOps) — build, test, deploy on push",
+      "Secrets management via env vars / Azure Key Vault (no credentials in code)",
+      "Health checks, readiness probes, structured logging",
+      "Runbook + handover doc your team can run with",
+      "1 production deploy together + 30 days of support",
+    ],
+    bestFor:
+      "Teams stuck on IIS or running .NET apps with manual deploys who want zero-downtime releases.",
+    cta: "Get a quote",
+  },
+  {
+    badge: "End-to-end",
+    title: "MVP / Greenfield Build",
+    pitch:
+      "Got a product idea or internal tool? I'll architect, design, and ship a production-ready MVP in 4–8 weeks — solo, with weekly demos.",
+    duration: "4–8 weeks",
+    priceUsd: "Starting at $4,500",
+    priceInr: "≈ ₹3.75L",
+    deliverables: [
+      "Discovery + scope workshop — written PRD before any code is written",
+      "Tech stack selection (.NET / Angular / Next.js / Postgres / your call)",
+      "Auth, role-based access, admin panel, audit logging — built right from day one",
+      "Cloud-deployed (Azure / Vercel) with CI/CD configured",
+      "Weekly demo videos + one live review call per week",
+      "Documentation: README, API docs, runbook",
+      "Source-code handover + 30-day post-launch bug-fix support",
+      "Optional ongoing retainer if you want me to keep shipping",
+    ],
+    bestFor:
+      "Founders, product teams, or operations leads who need a working v1 fast — without the overhead of a full team.",
+    cta: "Start a project",
+  },
+];
+
+export const process = [
+  {
+    step: "01",
+    title: "Discovery call",
+    description:
+      "Free 20-minute call. We dig into your problem, current stack, and what success looks like. You get a candid take on whether I can actually help — or someone better.",
+    duration: "20 min · free",
+  },
+  {
+    step: "02",
+    title: "Scope & estimate",
+    description:
+      "Within 48 hours: a written proposal with clear milestones, deliverables, and a fixed price (or hourly cap). No surprises later.",
+    duration: "48 hours",
+  },
+  {
+    step: "03",
+    title: "Build with weekly demos",
+    description:
+      "I ship working software every week — not status reports. You see real progress, give feedback early, and steer the direction before it's expensive to change.",
+    duration: "Weekly",
+  },
+  {
+    step: "04",
+    title: "Handover & 30-day support",
+    description:
+      "Clean code, documentation, and a recorded walkthrough. Plus 30 days of free bug-fix support after launch — no nickel-and-diming.",
+    duration: "30 days included",
+  },
+];
+
 /**
  * Add LinkedIn recommendations or client quotes here.
  * Section auto-hides while this list is empty.
@@ -133,35 +242,43 @@ export const testimonials: Array<{
 
 export const projects = [
   {
+    slug: "uniflow",
     title: "Uniflow — No-Code / Low-Code Application Builder",
     summary:
       "A no-code platform that lets business users generate dynamic apps with forms, workflows, approval matrices, and role-based menus by uploading a configurable Excel template.",
     impact:
       "Metadata-driven architecture stores all app structures and rules in the database — new apps launch and update without redeployment.",
     stack: ["Angular", ".NET Core", "C#", "SQL Server"],
+    hasCaseStudy: true,
   },
   {
+    slug: "ticketing",
     title: "Ticketing Tool — LLM-Powered Email Management",
     summary:
       "An email-driven ticket platform that ingests, classifies, and routes support tickets using LLM integration. Modular Angular UI with role-based features for operators, supervisors, and admins.",
     impact:
-      "Reduced manual email handling by 40% and significantly improved response turnaround for the support operations team.",
+      "Reduced manual email handling by ~40% and significantly improved response turnaround for the support operations team.",
     stack: ["Angular", ".NET Core", "MySQL", "Docker", "LLM"],
+    hasCaseStudy: true,
   },
   {
+    slug: "hms",
     title: "HMS — Harbor Management System",
     summary:
       "Vessel-operations system managing tug assignment, mooring, and service scheduling for UAE port operators. Automated scheduling and invoice generation.",
     impact:
       "Reduced manual coordination and billing errors. Owned end-to-end delivery — on-site requirement sessions through UAT sign-off and production support.",
     stack: ["Angular", ".NET Core", "SQL Server", "IIS"],
+    hasCaseStudy: true,
   },
   {
+    slug: "rtos",
     title: "RTOS — Rail Terminal Operation System",
     summary:
       "Manages rail operations and container movement between yards, including truck-loading coordination and third-party system integrations with automated invoice generation.",
     impact:
       "Modernized legacy VB.NET modules by rewriting critical paths in .NET Core and Angular — improving maintainability and bug-fix turnaround.",
     stack: ["Angular", ".NET Core", "VB.NET", "SQL Server"],
+    hasCaseStudy: true,
   },
 ];

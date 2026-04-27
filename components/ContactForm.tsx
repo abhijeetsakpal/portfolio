@@ -6,47 +6,85 @@ import { profile } from "@/lib/data";
 
 type Status = "idle" | "sending" | "success" | "error";
 
+/**
+ * Contact form wired to Web3Forms (https://web3forms.com).
+ *
+ * Setup:
+ *   1. Sign up free at web3forms.com → create an access key
+ *   2. Add NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY to .env.local and Vercel env vars
+ *   3. Deploy
+ *
+ * Without the env var, the form gracefully falls back to opening the user's
+ * email client with a pre-filled draft (mailto fallback).
+ *
+ * Security:
+ *   - Honeypot field "botcheck" silently rejects bot submissions
+ *   - Client-side required + email validation, plus message minLength
+ *   - Submitting state disables the button to prevent double-submits
+ */
 export default function ContactForm() {
-  const endpoint = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
+  const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string>("");
+
+  const fallbackToMailto = (data: FormData) => {
+    const name = String(data.get("name") || "");
+    const email = String(data.get("email") || "");
+    const company = String(data.get("company") || "");
+    const message = String(data.get("message") || "");
+    const subject = encodeURIComponent(`Project inquiry from ${name || "your portfolio"}`);
+    const body = encodeURIComponent(
+      `From: ${name} <${email}>${company ? `\nCompany: ${company}` : ""}\n\n${message}`
+    );
+    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
 
-    // No endpoint configured → graceful fallback to mailto
-    if (!endpoint) {
-      const name = String(data.get("name") || "");
-      const email = String(data.get("email") || "");
-      const message = String(data.get("message") || "");
-      const subject = encodeURIComponent(`New project inquiry from ${name}`);
-      const body = encodeURIComponent(
-        `From: ${name} <${email}>\n\n${message}`
-      );
-      window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
+    // Honeypot — if a bot fills the hidden field, abort silently.
+    // We pretend success so bots think they succeeded and stop retrying.
+    if (data.get("botcheck")) {
+      setStatus("success");
+      return;
+    }
+
+    // No access key configured → graceful fallback to mailto
+    if (!accessKey) {
+      fallbackToMailto(data);
       return;
     }
 
     setStatus("sending");
     setError("");
+
+    // Web3Forms expects access_key in the body and standard form fields
+    data.append("access_key", accessKey);
+    data.append("from_name", "Portfolio Contact Form");
+    data.append("subject", `Portfolio inquiry from ${data.get("name") || "anonymous"}`);
+
     try {
-      const res = await fetch(endpoint, {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         body: data,
         headers: { Accept: "application/json" },
       });
-      if (res.ok) {
+      const json = await res.json().catch(() => ({}));
+
+      if (res.ok && json.success) {
         setStatus("success");
         form.reset();
       } else {
-        const j = await res.json().catch(() => ({}));
-        throw new Error(j?.error || "Something went wrong. Try emailing me directly.");
+        throw new Error(
+          json?.message ||
+            "Couldn't send your message. Try emailing me directly at " + profile.email
+        );
       }
     } catch (err) {
       setStatus("error");
-      setError(err instanceof Error ? err.message : "Network error");
+      setError(err instanceof Error ? err.message : "Network error. Please try again.");
     }
   };
 
@@ -54,11 +92,11 @@ export default function ContactForm() {
     return (
       <div className="card p-8 text-center">
         <CheckCircle2 size={40} className="text-accent2 mx-auto mb-4" />
-        <h3 className="text-lg font-bold text-foreground mb-2">
+        <h3 className="text-xl font-bold text-foreground tracking-tight mb-2">
           Message sent!
         </h3>
-        <p className="text-foreground/70 text-sm">
-          I&apos;ll get back to you within 24 hours.
+        <p className="text-foreground/70 text-sm leading-relaxed">
+          Thanks — I&apos;ll get back to you within 24 hours.
         </p>
         <button
           onClick={() => setStatus("idle")}
@@ -71,29 +109,71 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4"
+      noValidate
+      aria-describedby={status === "error" ? "form-error" : undefined}
+    >
+      {/* Honeypot — hidden from real users, catches bots that auto-fill every field */}
+      <input
+        type="checkbox"
+        name="botcheck"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          opacity: 0,
+          pointerEvents: "none",
+        }}
+      />
+
       <div className="grid sm:grid-cols-2 gap-4">
-        <Field name="name" label="Your name" required />
-        <Field name="email" label="Email" type="email" required />
+        <Field name="name" label="Your name" required autoComplete="name" />
+        <Field
+          name="email"
+          label="Email"
+          type="email"
+          required
+          autoComplete="email"
+          pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+        />
       </div>
-      <Field name="company" label="Company (optional)" />
+      <Field
+        name="company"
+        label="Company (optional)"
+        autoComplete="organization"
+      />
       <div>
-        <label className="block text-xs uppercase tracking-widest text-muted mb-2">
+        <label
+          htmlFor="message"
+          className="block text-[11px] uppercase tracking-[0.2em] text-muted font-semibold mb-2"
+        >
           Project details
+          <span className="text-accent ml-0.5">*</span>
         </label>
         <textarea
+          id="message"
           name="message"
           rows={5}
           required
           minLength={10}
+          maxLength={4000}
           placeholder="What are you trying to build? Timeline, budget range, anything I should know."
-          className="w-full rounded-xl border border-border bg-surface/40 px-4 py-3 text-sm text-foreground placeholder:text-foreground/40 outline-none transition-colors focus:border-accent/60"
+          className="w-full rounded-xl border border-border bg-surface/40 px-4 py-3 text-sm text-foreground placeholder:text-foreground/40 outline-none transition-colors focus:border-accent/60 resize-y"
         />
       </div>
 
       {status === "error" && (
-        <div className="flex items-start gap-2 text-sm text-red-400">
-          <AlertCircle size={16} className="mt-0.5 shrink-0" />
+        <div
+          id="form-error"
+          role="alert"
+          aria-live="assertive"
+          className="flex items-start gap-2 text-sm text-red-400 rounded-lg border border-red-400/30 bg-red-400/5 p-3"
+        >
+          <AlertCircle size={16} className="mt-0.5 shrink-0" aria-hidden="true" />
           <span>{error}</span>
         </div>
       )}
@@ -104,7 +184,10 @@ export default function ContactForm() {
         className="btn-primary w-full justify-center disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {status === "sending" ? (
-          "Sending..."
+          <>
+            <span className="inline-block size-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+            Sending...
+          </>
         ) : (
           <>
             Send Message
@@ -113,9 +196,18 @@ export default function ContactForm() {
         )}
       </button>
 
-      {!endpoint && (
-        <p className="text-xs text-muted text-center">
-          Submitting will open your email client (form endpoint not configured).
+      {!accessKey && (
+        <p className="text-xs text-muted text-center leading-relaxed">
+          Submitting will open your email client.
+          <br className="sm:hidden" />
+          {" "}Or email me directly at{" "}
+          <a
+            href={`mailto:${profile.email}`}
+            className="text-accent hover:underline"
+          >
+            {profile.email}
+          </a>
+          .
         </p>
       )}
     </form>
@@ -127,17 +219,21 @@ function Field({
   label,
   type = "text",
   required = false,
+  autoComplete,
+  pattern,
 }: {
   name: string;
   label: string;
   type?: string;
   required?: boolean;
+  autoComplete?: string;
+  pattern?: string;
 }) {
   return (
     <div>
       <label
         htmlFor={name}
-        className="block text-xs uppercase tracking-widest text-muted mb-2"
+        className="block text-[11px] uppercase tracking-[0.2em] text-muted font-semibold mb-2"
       >
         {label}
         {required && <span className="text-accent ml-0.5">*</span>}
@@ -147,6 +243,8 @@ function Field({
         name={name}
         type={type}
         required={required}
+        autoComplete={autoComplete}
+        pattern={pattern}
         className="w-full rounded-xl border border-border bg-surface/40 px-4 py-2.5 text-sm text-foreground placeholder:text-foreground/40 outline-none transition-colors focus:border-accent/60"
       />
     </div>

@@ -2,8 +2,11 @@ import { profile } from "@/lib/data";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border py-10">
-      <div className="container-x flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted">
+    <footer
+      role="contentinfo"
+      className="border-t border-border py-10 mt-12"
+    >
+      <div className="container-x flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted tracking-wide">
         <div>
           © {new Date().getFullYear()} {profile.name}. Built with Next.js &
           Tailwind.

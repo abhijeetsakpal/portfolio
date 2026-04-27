@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION, TWITTER_HANDLE } from "@/lib/seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,44 +16,76 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://abhijeetsakpal.dev"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Abhijeet Sakpal — Full Stack Developer | .NET, Angular & LLM Integration",
-    template: "%s | Abhijeet Sakpal",
+    default: SITE_NAME,
+    template: "%s · Abhijeet Sakpal",
   },
-  description:
-    "Full Stack Developer with 4+ years of experience shipping enterprise apps in .NET Core, Angular, SQL Server, and LLM-powered automation. Available for freelance projects.",
+  description: SITE_DESCRIPTION,
+  applicationName: "Abhijeet Sakpal",
   keywords: [
     "Abhijeet Sakpal",
-    "Full Stack Developer",
-    ".NET Core developer",
-    "Angular developer",
+    "Senior Full-Stack Engineer",
+    "Freelance .NET developer",
+    "Freelance Angular developer",
     "LLM integration",
     "Freelance developer India",
     "Microservices",
-    "Azure",
+    "Microsoft Azure",
     "Kubernetes",
+    "Docker",
+    "Maritime software",
+    "Rail logistics software",
+    "Customer support automation",
+    "VB.NET to .NET Core migration",
   ],
-  authors: [{ name: "Abhijeet Sakpal" }],
+  authors: [{ name: "Abhijeet Sakpal", url: SITE_URL }],
   creator: "Abhijeet Sakpal",
+  publisher: "Abhijeet Sakpal",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://abhijeetsakpal.dev",
-    title: "Abhijeet Sakpal — Full Stack Developer",
-    description:
-      "Full Stack Developer specializing in .NET Core, Angular, and LLM-powered automation. 4+ years building enterprise apps for logistics, maritime, and ticketing.",
+    url: SITE_URL,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
     siteName: "Abhijeet Sakpal",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Abhijeet Sakpal — Senior Full-Stack Engineer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Abhijeet Sakpal — Full Stack Developer",
-    description:
-      "Full Stack Developer specializing in .NET Core, Angular, and LLM-powered automation.",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    creator: TWITTER_HANDLE,
+    images: ["/opengraph-image"],
+  },
+  alternates: {
+    canonical: SITE_URL,
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: "/icon.svg",
   },
 };
 
@@ -61,6 +94,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Run before React hydrates — applies dark class synchronously to avoid theme flash
   const themeScript = `
     (function() {
       try {
@@ -80,9 +114,16 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        {/* Tells browsers + OS UI (scrollbars, form controls) we support both modes */}
+        <meta name="color-scheme" content="light dark" />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
+        {children}
+      </body>
     </html>
   );
 }

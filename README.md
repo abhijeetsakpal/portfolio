@@ -120,21 +120,30 @@ All content lives in [`lib/data.ts`](lib/data.ts). Edit the values, save, and th
 
 ## Optional config
 
-### Contact form (Formspree)
+### Contact form (Web3Forms)
 
-The form in the Contact section works out of the box with a `mailto:` fallback (opens the user's email client). For real form submissions to your inbox:
+The form in the Contact section works out of the box with a `mailto:` fallback (opens the user's email client with a pre-filled draft). For real submissions delivered to your inbox:
 
-1. Sign up at [formspree.io](https://formspree.io) — free tier is 50 submissions/month.
-2. Create a new form, copy the endpoint URL (looks like `https://formspree.io/f/abcd1234`).
-3. Create `.env.local` in the project root:
+1. Go to [web3forms.com](https://web3forms.com) → click **Create Access Key**.
+2. Enter `sakpalabhijeet09@gmail.com` (the inbox where leads should land) → submit.
+3. **Confirm via the verification email Web3Forms sends you** — without this, submissions are silently dropped.
+4. Copy the access key (a UUID like `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`).
+5. Locally — create `.env.local` in the project root:
 
    ```
-   NEXT_PUBLIC_FORMSPREE_ENDPOINT=https://formspree.io/f/abcd1234
+   NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=your-access-key-here
    ```
 
-4. On Vercel, add the same env var under **Settings → Environment Variables**.
+6. On Vercel — **Project Settings → Environment Variables** → add the same key/value → redeploy.
 
-Alternatives: [Web3Forms](https://web3forms.com) (free unlimited), [Resend](https://resend.com) (3K/month free, requires custom API route).
+Free tier is **unlimited submissions, no domain required**. Includes a built-in honeypot for spam protection plus the form's own honeypot field.
+
+#### Want to switch to Resend later?
+
+Once you own a custom domain (e.g. `abhijeetsakpal.dev`):
+
+- [Resend](https://resend.com) — 3K emails/month free, requires DNS verification on your domain. Best DX, branded sender address (e.g. `hello@abhijeetsakpal.dev`).
+- [Formspree](https://formspree.io) — free 50 submissions/month, no domain needed. Drop-in alternative.
 
 ### Testimonials section
 
@@ -147,6 +156,68 @@ Section auto-hides while empty. To enable, edit the `testimonials` array in [`li
 ### OG image
 
 Auto-generated at `/opengraph-image` via Next.js's edge runtime — uses your name, tagline, and accent gradient. Test by sharing the deployed URL on LinkedIn / WhatsApp. Edit [`app/opengraph-image.tsx`](app/opengraph-image.tsx) to change it.
+
+### Blog — adding posts (MDX)
+
+Posts live in [`content/blog/*.mdx`](content/blog/). Each post is a single MDX file with YAML frontmatter:
+
+```mdx
+---
+title: "Your post title"
+description: "One-sentence description used for meta + cards."
+date: "2026-04-27"
+tags: ["LLM", "Architecture"]
+draft: false
+---
+
+Markdown content here. Code blocks, lists, blockquotes — all styled by mdx-components.tsx.
+```
+
+- **Slug** = filename without `.mdx`. So `content/blog/my-post.mdx` → `/blog/my-post`.
+- **Drafts** (`draft: true`) appear in `npm run dev` only, never in production.
+- Reading time is computed automatically (~200 wpm).
+- New posts auto-appear on `/blog` index, in the sitemap, and pick up Article schema metadata.
+
+Styling is centralized in [`mdx-components.tsx`](mdx-components.tsx).
+
+### SEO — single source of truth
+
+All canonical URLs, JSON-LD schemas, and Twitter card defaults live in [`lib/seo.ts`](lib/seo.ts):
+
+- `SITE_URL` — change once when you point a custom domain
+- `personJsonLd` + `professionalServiceJsonLd` — injected on the homepage
+- `articleJsonLd()` helper — used by case studies and blog posts
+
+After deploying, submit your sitemap to **Google Search Console**:
+
+1. Go to [search.google.com/search-console](https://search.google.com/search-console)
+2. Add property → use the URL prefix method with your live URL
+3. Verify via the HTML meta tag (paste it into `app/layout.tsx` → `metadata.verification.google`)
+4. Sitemaps → submit `https://your-url/sitemap.xml`
+
+### Case studies — NDA review checklist
+
+Each case study lives at `app/case-studies/{slug}/page.tsx` and uses the shared `CaseStudyLayout` component. **Before publishing or sharing in proposals, review every page for these:**
+
+- [ ] **Customer / client names** — none should appear directly. Generic descriptors only ("a UAE port operator", "a customer-support team").
+- [ ] **Specific traffic / revenue / volume numbers** — keep approximate (e.g. "~40%") and wrap exact metrics in `<SanitizedMetric>` so a regex grep finds them.
+- [ ] **Internal product names** outside your resume — ensure they're already public.
+- [ ] **Architecture diagrams** — verify Mermaid charts don't reveal internal naming conventions or proprietary patterns.
+- [ ] **Screenshots placeholders** — every `screenshotPlaceholder` is a TODO. Add a sanitized screenshot or remove the placeholder before going live.
+- [ ] **The `ndaNote` banner** at the top of each page — confirm wording fits the actual confidentiality terms.
+
+To find every flagged metric across all case studies:
+
+```bash
+grep -rn "SanitizedMetric" app/case-studies/
+grep -rn "screenshotPlaceholder" app/case-studies/
+```
+
+To grep for any "TODO" markers:
+
+```bash
+grep -rn "TODO\|VERIFY\|REVIEW\|NDA" app/case-studies/
+```
 
 ### Cal.com booking (optional next step)
 

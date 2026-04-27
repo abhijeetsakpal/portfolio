@@ -9,6 +9,10 @@ export default function Experience() {
           <h2 className="section-title">
             Where I&apos;ve <span className="gradient-text">delivered</span>
           </h2>
+          <p className="section-subtitle">
+            Four-plus years shipping production software — from intern to
+            leading a six-developer team.
+          </p>
         </div>
 
         <div className="space-y-10">
@@ -25,16 +29,14 @@ export default function Experience() {
                 <div className="size-2 rounded-full bg-accent" />
               </div>
 
-              <div className="card p-6 md:p-7">
+              <div className="card p-7">
                 <div className="flex flex-wrap items-baseline justify-between gap-2 mb-1">
-                  <h3 className="text-lg md:text-xl font-bold text-foreground">
-                    {job.role}
-                  </h3>
-                  <span className="text-xs text-muted font-mono">
+                  <h3 className="card-title">{job.role}</h3>
+                  <span className="text-xs text-muted font-mono tracking-wider">
                     {job.period}
                   </span>
                 </div>
-                <div className="text-accent text-sm font-medium mb-4">
+                <div className="text-accent text-sm font-semibold mb-4 tracking-wide">
                   {job.company}
                 </div>
                 <ul className="space-y-2.5">
@@ -43,7 +45,7 @@ export default function Experience() {
                       key={i}
                       className="text-sm text-foreground/85 leading-relaxed flex gap-2"
                     >
-                      <span className="text-accent2 shrink-0">▸</span>
+                      <span className="text-accent2 shrink-0 mt-0.5">▸</span>
                       <span>{b}</span>
                     </li>
                   ))}

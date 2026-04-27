@@ -20,22 +20,28 @@ export default function Hero() {
       <div className="container-x relative">
         <div className="grid lg:grid-cols-[1.2fr_1fr] gap-12 items-center">
           <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-4 py-1.5 text-xs text-foreground/85 mb-6">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+          <div
+            role="status"
+            aria-live="polite"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-4 py-1.5 text-xs text-foreground/85 mb-6"
+          >
+            <span aria-hidden="true" className="relative flex h-2 w-2">
+              <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
             </span>
             Available for freelance projects
           </div>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-6">
-            Hi, I&apos;m{" "}
-            <span className="gradient-text">{profile.name.split(" ")[0]}</span>.
-            <br />I build{" "}
-            <span className="gradient-text">AI-powered</span> apps that ship.
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-[-0.02em] leading-[1.08] mb-6">
+            <span className="gradient-text">4+ years</span>,{" "}
+            <span className="gradient-text">6-dev team lead</span>,
+            <br />on-site in{" "}
+            <span className="gradient-text">Dubai &amp; Abu Dhabi</span>.
+            <br />
+            <span className="text-foreground/85">Now freelancing.</span>
           </h1>
 
-          <p className="text-lg md:text-xl text-foreground/65 mb-8 max-w-2xl leading-relaxed">
+          <p className="text-lg md:text-xl text-foreground/70 mb-8 max-w-2xl leading-relaxed">
             {profile.tagline}
           </p>
 
@@ -63,9 +69,9 @@ export default function Hero() {
                 <div key={s.label}>
                   <AnimatedCounter
                     value={s.value}
-                    className="text-2xl md:text-3xl font-bold text-foreground tabular-nums"
+                    className="text-2xl md:text-3xl font-bold text-foreground tabular-nums tracking-tight"
                   />
-                  <div className="text-xs text-muted mt-1 uppercase tracking-wider">
+                  <div className="text-[11px] text-muted mt-1.5 uppercase tracking-[0.18em] font-semibold">
                     {s.label}
                   </div>
                 </div>

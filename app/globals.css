@@ -2,23 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Light theme (default) */
+/* Light theme (default) — WCAG AA tested */
 :root {
-  --color-bg: 255 255 255;
-  --color-surface: 245 246 250;
-  --color-border: 226 230 240;
-  --color-muted: 100 116 139;
-  --color-foreground: 15 23 42;
-  --color-accent: 124 92 255;
-  --color-accent2: 14 165 233;
+  --color-bg: 255 255 255;          /* #ffffff */
+  --color-surface: 245 246 250;     /* #f5f6fa */
+  --color-border: 226 230 240;      /* #e2e6f0 */
+  --color-muted: 71 85 105;         /* #475569 — slate-600, 7.0:1 on bg */
+  --color-foreground: 15 23 42;     /* #0f172a — slate-900 */
+  --color-accent: 124 92 255;       /* #7c5cff — brand purple */
+  --color-accent2: 14 165 233;      /* #0ea5e9 — cyan-500 */
 }
 
-/* Dark theme */
+/* Dark theme — WCAG AA tested */
 .dark {
   --color-bg: 10 10 15;
   --color-surface: 17 17 24;
   --color-border: 31 31 42;
-  --color-muted: 139 139 153;
+  --color-muted: 161 161 175;       /* lifted from 139 — meets 4.5:1 on dark */
   --color-foreground: 232 232 239;
   --color-accent: 124 92 255;
   --color-accent2: 34 211 238;
@@ -30,18 +30,34 @@
 
 html {
   scroll-behavior: smooth;
+  /* Offset for fixed navbar so anchor links don't hide behind it */
+  scroll-padding-top: 5rem;
+}
+
+/* Apply scroll-margin to all section anchors */
+section[id] {
+  scroll-margin-top: 5rem;
 }
 
 body {
   background-color: rgb(var(--color-bg));
   color: rgb(var(--color-foreground));
-  font-feature-settings: "rlig" 1, "calt" 1;
+  font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-size: 16px;
+  line-height: 1.6;
   background-image:
     radial-gradient(circle at 20% 0%, rgb(var(--color-accent) / 0.08), transparent 40%),
     radial-gradient(circle at 80% 100%, rgb(var(--color-accent2) / 0.07), transparent 40%);
   background-attachment: fixed;
   transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Headings inherit tighter line-height by default */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.011em;
 }
 
 ::selection {
@@ -63,33 +79,90 @@ body {
   background: rgb(var(--color-muted) / 0.5);
 }
 
+/* Skip-to-content link — visually hidden until focused */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(-150%);
+  background: rgb(var(--color-bg));
+  color: rgb(var(--color-foreground));
+  border: 1px solid rgb(var(--color-accent));
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  z-index: 100;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: transform 0.2s;
+  margin: 0.5rem;
+}
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid rgb(var(--color-accent));
+  outline-offset: 2px;
+}
+
 @layer components {
   .container-x {
     @apply mx-auto w-full max-w-6xl px-6 md:px-8;
   }
 
+  /* Visually hidden, but available to screen readers */
+  .sr-only {
+    @apply absolute w-px h-px overflow-hidden whitespace-nowrap;
+    clip: rect(0, 0, 0, 0);
+    margin: -1px;
+    padding: 0;
+    border: 0;
+  }
+
+  /* === Type scale ===
+     h1 (hero):           text-4xl → text-7xl (Hero only)
+     h1 (page title):     text-4xl md:text-5xl
+     h2 (section-title):  text-3xl md:text-4xl
+     h3 (card-title):     text-xl
+     body (lead):         text-lg leading-relaxed   (intro paragraphs)
+     body (default):      text-base leading-relaxed (inherited)
+     body (card):         text-sm  leading-relaxed
+     caption / eyebrow:   text-xs uppercase tracking-widest
+
+     === Color hierarchy ===
+     Primary text:        text-foreground       (titles, key emphasis)
+     Body text:           text-foreground/85    (long paragraphs)
+     Supporting text:     text-foreground/70    (card descriptions, subtitles)
+     Subtle text:         text-muted            (eyebrows, metadata, captions)
+  */
+
   .section-title {
-    @apply text-3xl md:text-4xl font-bold tracking-tight text-foreground;
+    @apply text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-[1.15];
+  }
+
+  .section-subtitle {
+    @apply text-foreground/70 mt-4 max-w-2xl text-base leading-relaxed;
   }
 
   .section-eyebrow {
-    @apply text-sm font-medium uppercase tracking-widest text-accent mb-3;
+    @apply text-xs font-semibold uppercase tracking-[0.2em] text-accent mb-3;
   }
 
   .card {
     @apply rounded-2xl border border-border bg-surface/60 backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:shadow-[0_0_40px_-12px_rgb(var(--color-accent)/0.4)];
   }
 
+  .card-title {
+    @apply text-xl font-bold tracking-tight text-foreground;
+  }
+
   .chip {
-    @apply inline-flex items-center rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-foreground/80;
+    @apply inline-flex items-center rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-foreground/80 tracking-wide;
   }
 
   .btn-primary {
-    @apply inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent/90 hover:shadow-accent/40;
+    @apply inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent/90 hover:shadow-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center gap-2 rounded-lg border border-border bg-surface/60 px-5 py-2.5 text-sm font-semibold text-foreground/85 transition-all hover:border-accent/40 hover:text-foreground;
+    @apply inline-flex items-center gap-2 rounded-lg border border-border bg-surface/60 px-5 py-2.5 text-sm font-semibold text-foreground/85 transition-all hover:border-accent/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg;
   }
 
   .gradient-text {
