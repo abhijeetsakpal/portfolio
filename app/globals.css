@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Light theme (default) */
+:root {
+  --color-bg: 255 255 255;
+  --color-surface: 245 246 250;
+  --color-border: 226 230 240;
+  --color-muted: 100 116 139;
+  --color-foreground: 15 23 42;
+  --color-accent: 124 92 255;
+  --color-accent2: 14 165 233;
+}
+
+/* Dark theme */
+.dark {
+  --color-bg: 10 10 15;
+  --color-surface: 17 17 24;
+  --color-border: 31 31 42;
+  --color-muted: 139 139 153;
+  --color-foreground: 232 232 239;
+  --color-accent: 124 92 255;
+  --color-accent2: 34 211 238;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: rgb(var(--color-bg));
+  color: rgb(var(--color-foreground));
+  font-feature-settings: "rlig" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(circle at 20% 0%, rgb(var(--color-accent) / 0.08), transparent 40%),
+    radial-gradient(circle at 80% 100%, rgb(var(--color-accent2) / 0.07), transparent 40%);
+  background-attachment: fixed;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+::selection {
+  background: rgb(var(--color-accent) / 0.35);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(var(--color-bg));
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--color-border));
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--color-muted) / 0.5);
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-6xl px-6 md:px-8;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold tracking-tight text-foreground;
+  }
+
+  .section-eyebrow {
+    @apply text-sm font-medium uppercase tracking-widest text-accent mb-3;
+  }
+
+  .card {
+    @apply rounded-2xl border border-border bg-surface/60 backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:shadow-[0_0_40px_-12px_rgb(var(--color-accent)/0.4)];
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-foreground/80;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-accent/20 transition-all hover:bg-accent/90 hover:shadow-accent/40;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 rounded-lg border border-border bg-surface/60 px-5 py-2.5 text-sm font-semibold text-foreground/85 transition-all hover:border-accent/40 hover:text-foreground;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-accent via-fuchsia-500 to-accent2 bg-clip-text text-transparent;
+    background-size: 200% 200%;
+    animation: gradient 8s ease infinite;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
