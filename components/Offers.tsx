@@ -18,20 +18,22 @@ export default function Offers() {
     <section id="offers" className="py-24 border-t border-border">
       <div className="container-x">
         <div className="text-center mb-14">
-          <div className="section-eyebrow">Productized Offers</div>
+          <div className="section-eyebrow">What I Build</div>
           <h2 className="section-title">
-            Fixed scope, fixed price,{" "}
-            <span className="gradient-text">no surprises</span>
+            From small websites to{" "}
+            <span className="gradient-text">large business apps</span>
           </h2>
           <p className="section-subtitle mx-auto">
-            Three engagements I run regularly — each with a clear timeline,
-            deliverables, and starting price. Custom scope welcome too.
+            Angular, .NET Core, and SQL Server is my home stack — but I&apos;ll
+            pick whatever fits your project. Three common engagements below;
+            custom scope always welcome.
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
           {offers.map((o, i) => {
-            const isFeatured = i === 0; // first offer is the lead/audit (most popular)
+            // Highlight whichever offer is tagged "Most popular"
+            const isFeatured = o.badge.toLowerCase() === "most popular";
             return (
               <Reveal key={o.title} delayMs={i * 90}>
                 <div
@@ -133,9 +135,10 @@ export default function Offers() {
 
         {/* Fine print */}
         <p className="text-center text-xs text-muted mt-10 max-w-2xl mx-auto leading-relaxed">
-          Prices in USD. INR equivalent shown for reference at indicative
-          exchange rates. Final scope, milestones, and price agreed via a
-          written proposal after our discovery call.
+          Starting prices reflect the smallest reasonable scope — most projects
+          land higher based on size, integrations, and timeline. Final scope and
+          fixed price are confirmed in a written proposal after our discovery
+          call. INR shown at indicative rates.
         </p>
       </div>
     </section>
