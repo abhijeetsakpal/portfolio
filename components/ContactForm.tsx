@@ -131,7 +131,13 @@ export default function ContactForm() {
       />
 
       <div className="grid sm:grid-cols-2 gap-4">
-        <Field name="name" label="Your name" required autoComplete="name" />
+        <Field
+          name="name"
+          label="Your name"
+          required
+          autoComplete="name"
+          placeholder="Jane Doe"
+        />
         <Field
           name="email"
           label="Email"
@@ -139,12 +145,14 @@ export default function ContactForm() {
           required
           autoComplete="email"
           pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+          placeholder="jane@company.com"
         />
       </div>
       <Field
         name="company"
         label="Company (optional)"
         autoComplete="organization"
+        placeholder="Acme Inc. — or your project name"
       />
       <div>
         <label
@@ -162,7 +170,7 @@ export default function ContactForm() {
           minLength={10}
           maxLength={4000}
           placeholder="What are you trying to build? Timeline, budget range, anything I should know."
-          className="w-full rounded-xl border border-border bg-surface/40 px-4 py-3 text-sm text-foreground placeholder:text-foreground/40 outline-none transition-colors focus:border-accent/60 resize-y"
+          className="w-full rounded-xl border-2 border-border bg-bg/60 px-4 py-3 text-sm text-foreground placeholder:text-foreground/40 outline-none transition-all focus:border-accent focus:ring-2 focus:ring-accent/30 hover:border-foreground/30 resize-y"
         />
       </div>
 
@@ -221,6 +229,7 @@ function Field({
   required = false,
   autoComplete,
   pattern,
+  placeholder,
 }: {
   name: string;
   label: string;
@@ -228,6 +237,7 @@ function Field({
   required?: boolean;
   autoComplete?: string;
   pattern?: string;
+  placeholder?: string;
 }) {
   return (
     <div>
@@ -245,7 +255,8 @@ function Field({
         required={required}
         autoComplete={autoComplete}
         pattern={pattern}
-        className="w-full rounded-xl border border-border bg-surface/40 px-4 py-2.5 text-sm text-foreground placeholder:text-foreground/40 outline-none transition-colors focus:border-accent/60"
+        placeholder={placeholder}
+        className="w-full rounded-xl border-2 border-border bg-bg/60 px-4 py-2.5 text-sm text-foreground placeholder:text-foreground/40 outline-none transition-all focus:border-accent focus:ring-2 focus:ring-accent/30 hover:border-foreground/30"
       />
     </div>
   );

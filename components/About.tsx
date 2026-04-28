@@ -1,5 +1,12 @@
 import Image from "next/image";
-import { MapPin, Briefcase, Plane, Code2 } from "lucide-react";
+import {
+  MapPin,
+  Briefcase,
+  Plane,
+  Code2,
+  Zap,
+  Users,
+} from "lucide-react";
 
 const highlights = [
   {
@@ -11,6 +18,16 @@ const highlights = [
     icon: Code2,
     title: "Lead 6-Dev Team",
     text: "Owning architecture, code reviews, and complex production blockers.",
+  },
+  {
+    icon: Zap,
+    title: "Performance & SQL Tuning",
+    text: "Cut API response times via service decomposition, async processing, and query tuning.",
+  },
+  {
+    icon: Users,
+    title: "Mentor & Reviewer",
+    text: "Coach juniors on C#, Angular, and SOLID; run review gates that cut defects 30%.",
   },
   {
     icon: Plane,
@@ -106,6 +123,18 @@ export default function About() {
               workflow. I lead a team of 6 developers, mentor juniors, and run
               VAPT-compliant releases that reduced post-release defects by 30%.
             </p>
+
+            {/* Anonymized 'Worked With' sectors — credibility without breaking NDAs */}
+            <div className="rounded-xl border border-border bg-surface/40 px-5 py-4">
+              <div className="text-[11px] uppercase tracking-[0.18em] text-muted font-semibold mb-2">
+                Worked with
+              </div>
+              <p className="text-sm text-foreground/85 leading-relaxed">
+                A UAE port operator · a rail-logistics platform · enterprise
+                customer-support teams across India · multi-tenant SaaS
+                products for business operations.
+              </p>
+            </div>
 
             <div className="grid sm:grid-cols-2 gap-4 pt-4">
               {highlights.map((h) => (

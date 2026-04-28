@@ -29,13 +29,20 @@ export default function Hero() {
               <span className="motion-safe:animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
             </span>
-            Available for freelance projects
+            <span className="hidden sm:inline">
+              Available for freelance projects
+              <span className="text-foreground/40 mx-2">·</span>
+              Open to senior engineering roles
+            </span>
+            <span className="sm:hidden">
+              Open for freelance &amp; senior roles
+            </span>
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-[-0.02em] leading-[1.08] mb-6">
             <span className="gradient-text">4+ years</span>,{" "}
             <span className="gradient-text">6-dev team lead</span>,
-            <br />on-site in{" "}
+            <br />on-site delivery in{" "}
             <span className="gradient-text">Dubai &amp; Abu Dhabi</span>.
             <br />
             <span className="text-foreground/85">Now freelancing.</span>

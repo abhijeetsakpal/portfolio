@@ -4,13 +4,16 @@
 
 /* Light theme (default) — WCAG AA tested */
 :root {
-  --color-bg: 255 255 255;          /* #ffffff */
-  --color-surface: 245 246 250;     /* #f5f6fa */
-  --color-border: 226 230 240;      /* #e2e6f0 */
-  --color-muted: 71 85 105;         /* #475569 — slate-600, 7.0:1 on bg */
+  --color-bg: 248 249 252;          /* #f8f9fc — soft off-white (was pure #fff) */
+  --color-surface: 240 242 247;     /* #f0f2f7 — slightly grayer for card contrast */
+  --color-border: 215 220 232;      /* #d7dce8 — more visible against the new bg */
+  --color-muted: 71 85 105;         /* #475569 — slate-600, ~7:1 on bg */
   --color-foreground: 15 23 42;     /* #0f172a — slate-900 */
-  --color-accent: 124 92 255;       /* #7c5cff — brand purple */
+  --color-accent: 109 79 232;       /* #6d4fe8 — slightly darker brand purple for AA on light */
   --color-accent2: 14 165 233;      /* #0ea5e9 — cyan-500 */
+  /* Body radial-glow opacity — softer in light mode to reduce purple haze */
+  --bg-glow-1: 0.035;
+  --bg-glow-2: 0.025;
 }
 
 /* Dark theme — WCAG AA tested */
@@ -20,8 +23,11 @@
   --color-border: 31 31 42;
   --color-muted: 161 161 175;       /* lifted from 139 — meets 4.5:1 on dark */
   --color-foreground: 232 232 239;
-  --color-accent: 124 92 255;
+  --color-accent: 124 92 255;       /* full-saturation brand purple on dark */
   --color-accent2: 34 211 238;
+  /* Stronger glow in dark mode to give the page atmosphere */
+  --bg-glow-1: 0.08;
+  --bg-glow-2: 0.07;
 }
 
 * {
@@ -49,8 +55,8 @@ body {
   font-size: 16px;
   line-height: 1.6;
   background-image:
-    radial-gradient(circle at 20% 0%, rgb(var(--color-accent) / 0.08), transparent 40%),
-    radial-gradient(circle at 80% 100%, rgb(var(--color-accent2) / 0.07), transparent 40%);
+    radial-gradient(circle at 20% 0%, rgb(var(--color-accent) / var(--bg-glow-1)), transparent 40%),
+    radial-gradient(circle at 80% 100%, rgb(var(--color-accent2) / var(--bg-glow-2)), transparent 40%);
   background-attachment: fixed;
   transition: background-color 0.2s ease, color 0.2s ease;
 }

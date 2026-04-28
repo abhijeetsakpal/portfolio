@@ -1,19 +1,19 @@
 export const profile = {
   name: "Abhijeet Sakpal",
-  role: "Full Stack Developer",
+  role: "Senior Full-Stack Engineer",
   tagline:
     "Senior full-stack engineer specializing in .NET microservices, Angular, and LLM-powered automation. Available for fixed-scope builds and ongoing engagements.",
   location: "Thane, Maharashtra, India",
   email: "sakpalabhijeet09@gmail.com",
-  phone: "+91-9763282164",
+  phone: "+91-8767208953",
   linkedin: "https://linkedin.com/in/abhijeetsakpal",
-  github: "https://github.com/abhijeetsakpal/", // TODO: update with your GitHub URL
+  github: "https://github.com/abhijeetsakpal",
   resumeUrl: "/Abhijeet_Sakpal_Resume.pdf",
 };
 
 export const stats = [
   { label: "Years of Experience", value: "4+" },
-  { label: "Production Releases", value: "50+" },
+  { label: "Devs Led & Mentored", value: "6" },
   { label: "Manual Workload Cut", value: "40%" },
   { label: "Post-release Defects ↓", value: "30%" },
 ];
@@ -100,14 +100,6 @@ export const experience = [
       "Delivered on-site engagements in Abu Dhabi and Dubai — gathered requirements from international clients, deployed custom modules, and provided go-live production support.",
     ],
   },
-  {
-    role: "Software Engineer Intern",
-    company: "Scan Infotech Pvt. Ltd.",
-    period: "Sep 2021 – Dec 2021",
-    bullets: [
-      "Contributed to web applications built on Angular, .NET Core, ASP.NET MVC, and SQL Server under senior-developer mentorship.",
-    ],
-  },
 ];
 
 export const offers: Array<{
@@ -144,6 +136,28 @@ export const offers: Array<{
     cta: "Get a quote",
   },
   {
+    badge: "Specialist",
+    title: "Database Design & Migration",
+    pitch:
+      "From-scratch SQL Server schema design, query/stored-procedure tuning, or migrating your existing app + database to a modern stack (legacy → .NET Core, MySQL → MSSQL, on-prem → Azure).",
+    duration: "1–4 weeks",
+    priceUsd: "Starting at $400",
+    priceInr: "≈ ₹35,000",
+    deliverables: [
+      "Audit of current schema, queries, or legacy app",
+      "Normalized SQL Server schema with indexes + constraints",
+      "Stored procedures, views, and query tuning where needed",
+      "ER diagram + written documentation",
+      "For migrations: data mapping, validation, dry-run + cutover plan",
+      "For app migration: legacy → .NET Core / Angular incremental rewrite",
+      "Zero-downtime cutover strategy (where applicable)",
+      "Post-migration verification + 30 days of support",
+    ],
+    bestFor:
+      "Teams stuck on slow databases, tangled legacy apps, or planning a move from older stacks (legacy ASP, VB.NET, MySQL, on-prem) to .NET Core + SQL Server + Azure.",
+    cta: "Get a quote",
+  },
+  {
     badge: "Most popular",
     title: "Custom Web Application",
     pitch:
@@ -164,28 +178,6 @@ export const offers: Array<{
     bestFor:
       "Founders, ops leads, and SMEs needing a real business tool — order management, scheduling, billing, reporting, multi-user workflows — without the cost of a full agency.",
     cta: "Start a project",
-  },
-  {
-    badge: "Specialist",
-    title: "Database Design & Migration",
-    pitch:
-      "From-scratch SQL Server schema design, query/stored-procedure tuning, or migrating your existing app + database to a modern stack (legacy → .NET Core, MySQL → MSSQL, on-prem → Azure).",
-    duration: "1–4 weeks",
-    priceUsd: "Starting at $400",
-    priceInr: "≈ ₹35,000",
-    deliverables: [
-      "Audit of current schema, queries, or legacy app",
-      "Normalized SQL Server schema with indexes + constraints",
-      "Stored procedures, views, and query tuning where needed",
-      "ER diagram + written documentation",
-      "For migrations: data mapping, validation, dry-run + cutover plan",
-      "For app migration: legacy → .NET Core / Angular incremental rewrite",
-      "Zero-downtime cutover strategy (where applicable)",
-      "Post-migration verification + 30 days of support",
-    ],
-    bestFor:
-      "Teams stuck on slow databases, tangled legacy apps, or planning a move from older stacks (VB.NET, classic ASP, MySQL, on-prem) to .NET Core + SQL Server + Azure.",
-    cta: "Get a quote",
   },
 ];
 
@@ -217,6 +209,36 @@ export const process = [
     description:
       "Clean code, documentation, and a recorded walkthrough. Plus 30 days of free bug-fix support after launch — no nickel-and-diming.",
     duration: "30 days included",
+  },
+];
+
+export const education = [
+  {
+    degree: "B.Sc. in Computer Science",
+    institution: "University of Mumbai",
+    period: "2018 – 2021",
+    location: "Mumbai, India",
+  },
+];
+
+export const languages = [
+  { name: "English", level: "Professional" },
+  { name: "Hindi", level: "Native" },
+  { name: "Marathi", level: "Native" },
+];
+
+export const additionalFacts = [
+  {
+    label: "International delivery",
+    value: "On-site engagements in Abu Dhabi & Dubai",
+  },
+  {
+    label: "Open to",
+    value: "Remote · Hybrid · Senior engineering roles",
+  },
+  {
+    label: "Time zones",
+    value: "IST · UAE · EU friendly",
   },
 ];
 
